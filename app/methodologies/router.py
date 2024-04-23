@@ -7,7 +7,7 @@ from app.methodologies.schemas import SMethod
 from fastapi_cache.decorator import cache
 
 router = APIRouter(
-    prefix="/methodologies"
+    prefix="/api/methodologies"
 )
 
 

@@ -4,12 +4,14 @@ from fastapi_cache.backends.redis import RedisBackend
 
 from app.config import get_settings
 from app.database.core import Core
-from app.methodologies.router import router as method_router
+from app.methodologies.router import router as router_method
+from app.pages.views import view
 
 from redis import asyncio as aioredis
 
 app = FastAPI()
-app.include_router(method_router)
+app.include_router(router_method)
+app.include_router(view)
 
 
 @app.on_event("startup")
