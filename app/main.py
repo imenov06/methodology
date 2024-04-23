@@ -1,15 +1,12 @@
-from app.methodologies.repo import MethodologiesRepo
-from database.core import Core
+from fastapi import FastAPI
+from app.database.core import Core
+from app.methodologies.router import router as method_router
+
+app = FastAPI()
+app.include_router(method_router)
 
 
-def main():
+@app.on_event("startup")
+def startup():
     Core.create_tables()
     Core.insert_test_data()
-
-    a = MethodologiesRepo.join_method_images(1)
-    print(a)
-
-
-
-if __name__ == '__main__':
-    main()

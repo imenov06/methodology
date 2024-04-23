@@ -14,7 +14,6 @@ class Methodologies(Base):
     avatar_url = Column(String(1024), nullable=True)
     is_published = Column(Boolean, default=True, nullable=False)
 
-    images: Mapped[list["ImagesInMethodologies"]] = relationship(back_populates="methodologies")
 
 
 class ImagesInMethodologies(Base):
@@ -25,4 +24,3 @@ class ImagesInMethodologies(Base):
     url = Column(String(1024), nullable=False)
     method_id = Column(Integer, ForeignKey("methodologies.id", ondelete="CASCADE"))
 
-    methodologies: Mapped["Methodologies"] = relationship(back_populates="images")

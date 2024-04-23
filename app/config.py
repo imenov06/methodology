@@ -1,5 +1,5 @@
-from pydantic.v1 import BaseSettings
-
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from functools import lru_cache
 
 class Settings(BaseSettings):
     DB_HOST: str
@@ -8,12 +8,8 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
 
-    class Config:
-        env_file = "../.env"
-
-    def get_db_url(self) -> str:
-        return f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+    model_config = SettingsConfigDict(env_file='.env')
 
 
 settings = Settings()
-db_url = settings.get_db_url()
+db_url = f"postgresql+psycopg2://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
