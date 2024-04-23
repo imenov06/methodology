@@ -1,9 +1,11 @@
+from functools import lru_cache
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-from app.config import db_url
+from app.config import get_settings
 
-engine = create_engine(db_url)
+engine = create_engine(get_settings().get_db_url())
 session_maker = sessionmaker(engine)
 
 
