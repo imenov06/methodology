@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:latest
+    container_name: method_db
+    environment:
+      POSTGRES_DB: "docker"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "1234"
+    ports:
+      - "5434:5432"
+  redis:
+    image: redis:latest
+    container_name: method_redis
+
+  web:
+    #    image: method_image
+    build:
+      context: .
+    container_name: method_app
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - database
+      - redis
+    command: [ "/docker/init.sh" ]
+
+    ports:
+      - "8000:8000"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
